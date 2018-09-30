@@ -6,16 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @RequestMapping("/karma")
 public class KarmaController {
 
-    private ColleagueService service = new ColleagueService();
+    private final ColleagueService service;
 
+    public KarmaController(ColleagueService service) {
+        this.service = service;
+    }
 
     @RequestMapping(value = "/colleagues",
            method = RequestMethod.GET,

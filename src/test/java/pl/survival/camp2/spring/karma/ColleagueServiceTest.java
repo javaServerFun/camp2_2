@@ -1,15 +1,31 @@
 package pl.survival.camp2.spring.karma;
 
 import io.vavr.collection.List;
+import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import pl.survival.camp2.spring.karma.db.ColleagueRepository;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class ColleagueServiceTest {
+
+    @Autowired
+    private ColleagueRepository repository;
+
+    @After
+    public void cleanAfterTest() {
+        this.repository.deleteAll();
+    }
 
     @Test
     public void getEmptyList() {
-        final ColleagueService service = new ColleagueService();
+        final ColleagueService service = new ColleagueService(repository);
 
         final List<Colleague> colleagues = service.getColleagues();
 
@@ -18,7 +34,7 @@ public class ColleagueServiceTest {
 
     @Test
     public void addColl( ) {
-        final ColleagueService service = new ColleagueService();
+        final ColleagueService service = new ColleagueService(repository);
 
         final Colleague created = service.addColleague(
                 new NewColleague("Irasiad", "555-555-551", "HR"));
@@ -28,7 +44,7 @@ public class ColleagueServiceTest {
 
     @Test
     public void addedCollIsReturned( ) {
-        final ColleagueService service = new ColleagueService();
+        final ColleagueService service = new ColleagueService(repository);
 
         final Colleague created = service.addColleague(
                 new NewColleague("Irasiad", "555-555-551", "HR"));
@@ -40,7 +56,7 @@ public class ColleagueServiceTest {
 
     @Test
     public void addedCollHasNewId( ) {
-        final ColleagueService service = new ColleagueService();
+        final ColleagueService service = new ColleagueService(repository);
         final Colleague created1 = service.addColleague(
                 new NewColleague("Irasiad", "555-555-551", "HR"));
         final Colleague created2 = service.addColleague(
