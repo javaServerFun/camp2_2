@@ -27,8 +27,13 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/io.vavr/vavr
     compile group: 'io.vavr', name: 'vavr', version: '0.9.2'
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    compile group: 'com.h2database', name: 'h2', version: '1.4.197'
+// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
 
-    implementation('org.springframework.boot:spring-boot-starter-jersey')
+
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-web')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
