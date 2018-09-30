@@ -2,9 +2,11 @@ package pl.survival.camp2.spring.karma;
 
 import io.vavr.collection.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.survival.camp2.spring.karma.db.ColleagueRepository;
 import pl.survival.camp2.spring.karma.db.ColleagueRow;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -18,25 +20,25 @@ public class ColleagueService {
 
     List<Colleague> getColleagues() {
         return List.ofAll(this.repository.findAll())
-                    .map(getColleagueRowColleagueFunction()
-                     );
+                    .map(ColleagueRow::toColleague);
     }
 
-    private Function<ColleagueRow, Colleague> getColleagueRowColleagueFunction() {
-        return dbObj ->
-            new Colleague(
-                    dbObj.getId(),
-                    dbObj.getNick(),
-                    dbObj.getPhone(),
-                    dbObj.getDepartment());
-    }
 
     Colleague addColleague(final NewColleague newColleague) {
-        ColleagueRow created = this.repository.save(new ColleagueRow(
+        return this.repository.save(new ColleagueRow(
                 newColleague.nick,
                 newColleague.phone,
-                newColleague.department));
-        return getColleagueRowColleagueFunction().apply(created);
+                newColleague.department)).toColleague();
+    }
+
+    @Transactional
+    public Optional<Colleague> changePhone( long colleagueId, String newPhone ) {
+        final Optional<ColleagueRow> colleague = this.repository.findById(colleagueId);
+        return colleague.map ( c -> {
+            c.setPhone(newPhone);
+            //repository.save(c);
+            return c.toColleague();
+        });
     }
 }
 

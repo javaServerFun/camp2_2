@@ -1,10 +1,7 @@
 package pl.survival.camp2.spring.karma;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +30,14 @@ public class KarmaController {
     public Colleague addUser(@RequestBody NewColleague colleague) {
         return this.service.addColleague(colleague);
     }
+
+    @RequestMapping(value = "/colleagues/{id}/phone/{phone}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public Colleague setPhone(@PathVariable("id") long id, @PathVariable("phone") String phone) {
+        return this.service.changePhone(id, phone).orElseThrow(
+                () -> new IllegalArgumentException("Colleague of id:" + id + " does not exist")
+        );
+    }
+
 }

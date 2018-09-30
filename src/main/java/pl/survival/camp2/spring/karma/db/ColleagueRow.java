@@ -1,5 +1,7 @@
 package pl.survival.camp2.spring.karma.db;
 
+import pl.survival.camp2.spring.karma.Colleague;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +28,15 @@ public class ColleagueRow {
     }
 
     protected ColleagueRow() {
+    }
+
+    public Colleague toColleague() {
+        return new Colleague(
+                this.getId(),
+                this.getNick(),
+                this.getPhone(),
+                this.getDepartment());
+
     }
 
     public String getDepartment() {
