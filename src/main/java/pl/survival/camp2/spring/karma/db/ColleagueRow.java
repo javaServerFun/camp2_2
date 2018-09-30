@@ -2,10 +2,8 @@ package pl.survival.camp2.spring.karma.db;
 
 import pl.survival.camp2.spring.karma.Colleague;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -20,6 +18,9 @@ public class ColleagueRow {
     private String phone;
 
     private String department;
+
+    @OneToMany(mappedBy = "colleague")
+    private Set<ScoreRow> scores;
 
     public ColleagueRow(String nick, String phone, String department) {
         this.nick = nick;
@@ -69,5 +70,13 @@ public class ColleagueRow {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Set<ScoreRow> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<ScoreRow> scores) {
+        this.scores = scores;
     }
 }

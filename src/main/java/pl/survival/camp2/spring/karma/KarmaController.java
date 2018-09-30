@@ -36,8 +36,18 @@ public class KarmaController {
     )
     public Colleague setPhone(@PathVariable("id") long id, @PathVariable("phone") String phone) {
         return this.service.changePhone(id, phone).orElseThrow(
-                () -> new IllegalArgumentException("Colleague of id:" + id + " does not exist")
+                () -> new NoColleagueException( id)
         );
     }
 
+    @RequestMapping(value = "/colleagues/{id}/scores", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public int addScore(@PathVariable("id") long id, @RequestBody Score score) {
+       return this.service.addScore(id, score)
+               .orElseThrow(
+                       () -> new NoColleagueException( id)
+            );
+    }
 }
