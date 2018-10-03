@@ -14,22 +14,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequestMapping("/karma")
 public class KarmaController {
 
-    private ColleagueService service = new ColleagueService();
+    private List<String> users = new CopyOnWriteArrayList<>();
+
+    {
+        this.users.addAll(Arrays.asList("Irek", "Krzybiu", "Stefek"));
+    }
 
 
     @RequestMapping(value = "/colleagues",
-           method = RequestMethod.GET,
-           produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+           method = RequestMethod.GET
     )
-    public List<Colleague> getUsers() {
-        return this.service.getColleagues().asJava();
+    public List<String> getUsers() {
+        return this.users;
     }
 
-    @RequestMapping(value = "/colleagues", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
-    public Colleague addUser(@RequestBody NewColleague colleague) {
-        return this.service.addColleague(colleague);
+    @RequestMapping(value = "/colleagues", method = RequestMethod.POST)
+    public int addUser(@RequestBody String name) {
+        this.users.add(name);
+        return this.users.size();
     }
 }
