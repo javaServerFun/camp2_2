@@ -21,14 +21,14 @@ public class KarmaController {
     }
 
 
-    @RequestMapping(value = "/colleagues",
+    @RequestMapping(value = "/users",
            method = RequestMethod.GET
     )
     public List<String> getUsers() {
         return this.users;
     }
 
-    @RequestMapping(value = "/colleagues", method = RequestMethod.POST)
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     public int addUser(@RequestBody String name) {
         this.users.add(name);
         return this.users.size();
